@@ -50,7 +50,6 @@ const UserContext = ({ children }) => {
     return () => unsubscribe();
   }, []);
   const userInfo = {
-  const userInfo = {
     user,
     createUserWithEmailPass,
     userInfoUpdate,
