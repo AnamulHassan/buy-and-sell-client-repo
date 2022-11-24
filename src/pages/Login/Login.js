@@ -7,12 +7,16 @@ import { classNames } from 'primereact/utils';
 import { useContext } from 'react';
 import { AuthContext } from '../../context/UserContext';
 import SocialLogin from '../Shared/SocialLogin/SocialLogin';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useTitle from '../../hook/useTitle';
 
 const Login = () => {
   useTitle('Pay&Buy Login');
-  const { setUser, loginWithEmailAndPassword } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || '/';
+  const { setUser, loginWithEmailAndPassword, setLoading } =
+    useContext(AuthContext);
   const [showError, setShowError] = useState('');
   const defaultValues = {
     email: '',
@@ -27,8 +31,11 @@ const Login = () => {
 
   const handleLoginUser = data => {
     loginWithEmailAndPassword(data.email, data.password)
-      .then(data => {
-        console.log(data);
+      .then(result => {
+        setUser(result.user);
+        setLoading(false);
+        navigate(from, { replace: true });
+        reset();
       })
       .catch(error => {
         if (error.message.includes('auth/user-not-found')) {

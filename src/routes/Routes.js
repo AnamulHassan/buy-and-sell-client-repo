@@ -13,6 +13,8 @@ import MyProduct from '../pages/Dashboard/MyProduct/MyProduct';
 import MyBuyer from '../pages/Dashboard/MyBuyer/MyBuyer';
 import Register from '../pages/Register/Register';
 import Login from '../pages/Login/Login';
+import PrivateRoute from './PrivateRoute';
+import AdminRoute from './AdminRoute';
 
 const router = createBrowserRouter([
   {
@@ -43,7 +45,10 @@ const router = createBrowserRouter([
     path: '/dashboard',
     element: <DashboardLayout></DashboardLayout>,
     children: [
-      { path: '/dashboard/all_sellers', element: <AllSeller></AllSeller> },
+      {
+        path: '/dashboard/all_sellers',
+        element: <AllSeller></AllSeller>,
+      },
       { path: '/dashboard/all_buyers', element: <AllBuyers></AllBuyers> },
       {
         path: '/dashboard/reported_items',
@@ -51,19 +56,35 @@ const router = createBrowserRouter([
       },
       {
         path: '/dashboard/my_orders',
-        element: <MyOrder></MyOrder>,
+        element: (
+          <PrivateRoute>
+            <MyOrder></MyOrder>
+          </PrivateRoute>
+        ),
       },
       {
         path: '/dashboard/add_product',
-        element: <AddProduct></AddProduct>,
+        element: (
+          <PrivateRoute>
+            <AddProduct></AddProduct>
+          </PrivateRoute>
+        ),
       },
       {
         path: '/dashboard/my_product',
-        element: <MyProduct></MyProduct>,
+        element: (
+          <PrivateRoute>
+            <MyProduct></MyProduct>
+          </PrivateRoute>
+        ),
       },
       {
         path: '/dashboard/my_buyer',
-        element: <MyBuyer></MyBuyer>,
+        element: (
+          <PrivateRoute>
+            <MyBuyer></MyBuyer>
+          </PrivateRoute>
+        ),
       },
     ],
   },

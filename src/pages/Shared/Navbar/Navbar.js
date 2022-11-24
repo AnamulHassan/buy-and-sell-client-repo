@@ -4,10 +4,16 @@ import { SlideMenu } from 'primereact/slidemenu';
 import { FaBars } from 'react-icons/fa';
 import { useContext } from 'react';
 import { AuthContext } from '../../../context/UserContext';
+import LoaderSecondary from '../../../components/LoaderSecondary/LoaderSecondary';
 
 const Navbar = () => {
   const menu = useRef(null);
-  const { user, loader } = useContext(AuthContext);
+  const { user, loading, userLogout } = useContext(AuthContext);
+  const handleLogout = () => {
+    userLogout()
+      .then(() => {})
+      .catch(error => console.error(error));
+  };
 
   const items = [
     {
@@ -67,7 +73,10 @@ const Navbar = () => {
     },
     {
       label: (
-        <button className="hover:text-[#aa6f35] font-bold duration-300">
+        <button
+          onClick={handleLogout}
+          className="hover:text-[#aa6f35] font-bold duration-300"
+        >
           Logout
         </button>
       ),
@@ -84,6 +93,8 @@ const Navbar = () => {
         <div className="flex justify-between items-center">
           {user ? (
             ''
+          ) : loading ? (
+            <LoaderSecondary></LoaderSecondary>
           ) : (
             <Link
               to="/login"

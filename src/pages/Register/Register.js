@@ -8,14 +8,17 @@ import { SelectButton } from 'primereact/selectbutton';
 import { useContext } from 'react';
 import { AuthContext } from '../../context/UserContext';
 import SocialLogin from '../Shared/SocialLogin/SocialLogin';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useTitle from '../../hook/useTitle';
 
 const Register = () => {
   useTitle('Pay&Buy Register');
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || '/';
   const [userCategory, setUserCategory] = useState('');
   const options = ['Seller', 'Buyer'];
-  const { setUser, createUserWithEmailPass, userUpdate } =
+  const { setUser, createUserWithEmailPass, userUpdate, setLoading } =
     useContext(AuthContext);
   const [showError, setShowError] = useState('');
   const defaultValues = {
@@ -46,10 +49,13 @@ const Register = () => {
     createUserWithEmailPass(data.email, data.password)
       .then(result => {
         setUser(result.user);
+        setLoading(false);
+        navigate(from, { replace: true });
+        reset();
         userUpdate(data.name)
           .then(() => {
-            console.log('ok');
-            console.log(result.user);
+            // console.log('ok');
+            // console.log(result.user);
           })
           .catch(error => setShowError(error.message));
       })

@@ -54,6 +54,8 @@ const UserContext = ({ children }) => {
     userLogout,
     setUser,
     loginWithEmailAndPassword,
+    loading,
+    setLoading,
   };
   return (
     <AuthContext.Provider value={userInfo}>{children}</AuthContext.Provider>
