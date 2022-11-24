@@ -8,3 +8,6 @@
   background: #aa6f35;
   border-radius: 10px;
 }
+body {
+  overflow-x: hidden;
+}
