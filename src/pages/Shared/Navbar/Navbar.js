@@ -1,103 +1,61 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import Switch from '@material-ui/core/Switch';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormGroup from '@material-ui/core/FormGroup';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-  },
-}));
+import React, { useRef } from 'react';
+import { NavLink } from 'react-router-dom';
+import { SlideMenu } from 'primereact/slidemenu';
+import { FaAlignJustify } from 'react-icons/fa';
 
 const Navbar = () => {
- 
-  const classes = useStyles();
-  const [auth, setAuth] = React.useState(true);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
+  const menu = useRef(null);
 
-  const handleChange = (event) => {
-    setAuth(event.target.checked);
-  };
+  const items = [
+    {
+      label: <NavLink to="/home">Home</NavLink>,
+      icon: 'pi pi-fw pi-home',
+    },
+    {
+      label: <NavLink to="/blog">Blog</NavLink>,
+      icon: 'pi pi-fw pi-book',
+    },
+    {
+      label: <NavLink to="/about">About</NavLink>,
+      icon: 'pi pi-fw pi-question-circle',
+    },
+    {
+      separator: true,
+    },
+    {
+      label: <NavLink to="/dashboard">Dashboard</NavLink>,
+      icon: 'pi pi-fw pi-chart-bar',
+    },
+    {
+      label: <button>Logout</button>,
+      icon: 'pi pi-fw pi-sign-out',
+    },
+  ];
 
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-    
-
-    
-
-    
-    
-      return (
-        <div className={classes.root}>
-          <FormGroup>
-            <FormControlLabel
-              control={<Switch checked={auth} onChange={handleChange} aria-label="login switch" />}
-              label={auth ? 'Logout' : 'Login'}
-            />
-          </FormGroup>
-          <AppBar position="static">
-            <Toolbar>
-              <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                <MenuIcon />
-              </IconButton>
-              <Typography variant="h6" className={classes.title}>
-                Photos
-              </Typography>
-              {auth && (
-                <div>
-                  <IconButton
-                    aria-label="account of current user"
-                    aria-controls="menu-appbar"
-                    aria-haspopup="true"
-                    onClick={handleMenu}
-                    color="inherit"
-                  >
-                    <AccountCircle />
-                  </IconButton>
-                  <Menu
-                    id="menu-appbar"
-                    anchorEl={anchorEl}
-                    anchorOrigin={{
-                      vertical: 'top',
-                      horizontal: 'right',
-                    }}
-                    keepMounted
-                    transformOrigin={{
-                      vertical: 'top',
-                      horizontal: 'right',
-                    }}
-                    open={open}
-                    onClose={handleClose}
-                  >
-                    <MenuItem onClick={handleClose}>Profile</MenuItem>
-                    <MenuItem onClick={handleClose}>My account</MenuItem>
-                  </Menu>
-                </div>
-              )}
-            </Toolbar>
-          </AppBar>
-        </div>
-      );
-    }
+  return (
+    <header className="w-full bg-slate-200">
+      <div className="w-11/12 mx-auto py-2 flex justify-between items-center">
+        <h2>Pay&Buy</h2>
+        <button
+          type="button"
+          icon="pi pi-bars"
+          label="Show"
+          onClick={event => menu.current.toggle(event)}
+        >
+          <FaAlignJustify />
+        </button>
+      </div>
+      <div>
+        <SlideMenu
+          ref={menu}
+          model={items}
+          popup
+          viewportHeight={220}
+          menuWidth={200}
+        ></SlideMenu>
+      </div>
+    </header>
+  );
+};
 
 export default Navbar;

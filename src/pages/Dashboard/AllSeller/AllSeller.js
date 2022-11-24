@@ -1,11 +1,11 @@
 import React from 'react';
 
-const About = () => {
+const AllSeller = () => {
   return (
     <div className="w-full h-screen flex items-center justify-center">
-      <h3 className="text-3xl font-bold">About</h3>
+      <h3 className="text-3xl font-bold">All Seller</h3>
     </div>
   );
 };
 
-export default About;
+export default AllSeller;
