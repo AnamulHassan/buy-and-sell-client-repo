@@ -11,3 +11,20 @@
 body {
   overflow-x: hidden;
 }
+
+.btn-primary {
+  background-color: #aa6f35 !important;
+  color: #fff;
+  outline: none !important;
+  box-shadow: none !important;
+  border: 0px solid #aa6f35 !important;
+}
+
+.btn-primary:hover {
+  background-color: #af8071 !important;
+}
+.input-primary {
+  outline: none !important;
+  box-shadow: none !important;
+  border: 0px solid #aa6f35 !important;
+}

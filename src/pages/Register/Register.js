@@ -2,18 +2,20 @@ import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
-
 import { Password } from 'primereact/password';
-
-import { Divider } from 'primereact/divider';
 import { classNames } from 'primereact/utils';
 import { SelectButton } from 'primereact/selectbutton';
+import { useContext } from 'react';
+import { AuthContext } from '../../context/UserContext';
+import SocialLogin from '../Shared/SocialLogin/SocialLogin';
+import { Link } from 'react-router-dom';
 
 const Register = () => {
-  const url = `https://api.imgbb.com/1/upload&key=${process.env.REACT_APP_IMGBB_SECRET_KEY}`;
-  console.log(url);
   const [userCategory, setUserCategory] = useState('');
   const options = ['Seller', 'Buyer'];
+  const { setUser, createUserWithEmailPass, userUpdate } =
+    useContext(AuthContext);
+  const [showError, setShowError] = useState('');
   const defaultValues = {
     name: '',
     email: '',
@@ -26,7 +28,7 @@ const Register = () => {
     reset,
   } = useForm({ defaultValues });
 
-  const onSubmit = data => {
+  const handleCreateUser = data => {
     const userInfo = {
       name: data.name,
       email: data.email,
@@ -38,7 +40,25 @@ const Register = () => {
           : false,
       isSeller: userCategory.toLowerCase() === 'seller' ? true : false,
     };
-    console.log(userInfo);
+    // console.log(data.email, data.password);
+    createUserWithEmailPass(data.email, data.password)
+      .then(result => {
+        setUser(result.user);
+        userUpdate(data.name)
+          .then(() => {
+            console.log('ok');
+            console.log(result.user);
+          })
+          .catch(error => setShowError(error.message));
+      })
+      .catch(error => {
+        if (error.message.includes('auth/email-already-in-use')) {
+          setShowError('This user name already exist');
+        }
+        if (error.message.includes('auth/weak-password')) {
+          setShowError('Password should be at least 6 characters');
+        }
+      });
   };
 
   const getFormErrorMessage = name => {
@@ -47,19 +67,6 @@ const Register = () => {
     );
   };
 
-  const passwordHeader = <h6>Pick a password</h6>;
-  const passwordFooter = (
-    <React.Fragment>
-      <Divider />
-      <p className="mt-2">Suggestions</p>
-      <ul className="pl-2 ml-2 mt-0" style={{ lineHeight: '1.5' }}>
-        <li>At least one lowercase</li>
-        <li>At least one uppercase</li>
-        <li>At least one numeric</li>
-        <li>Minimum 8 characters</li>
-      </ul>
-    </React.Fragment>
-  );
   return (
     <div className="w-10/12 mx-auto">
       <div className="mx-auto flex justify-content-center">
@@ -68,7 +75,7 @@ const Register = () => {
             Register
           </h5>
           <form
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmit(handleCreateUser)}
             className="p-fluid space-y-6 outline-[#aa6f35] ring-[#aa6f35]"
           >
             <div className="field">
@@ -130,7 +137,7 @@ const Register = () => {
               {getFormErrorMessage('email')}
             </div>
             <div className="field">
-              <span className="p-float-label">
+              <span className="p-float-label ">
                 <Controller
                   name="password"
                   control={control}
@@ -139,12 +146,11 @@ const Register = () => {
                     <Password
                       id={field.name}
                       {...field}
+                      required
                       toggleMask
                       className={classNames({
                         'p-invalid': fieldState.invalid,
                       })}
-                      header={passwordHeader}
-                      footer={passwordFooter}
                     />
                   )}
                 />
@@ -164,8 +170,22 @@ const Register = () => {
                 onChange={e => setUserCategory(e.value)}
               />
             </div>
-            <Button type="submit" label="Login" className="bg-[#af8071]" />
+            <Button type="submit" label="Register" className="btn-primary" />
           </form>
+          {showError && (
+            <p className="text-center -mb-5 text-sm font-semibold text-[#aa2c08]">
+              {showError}
+            </p>
+          )}
+          <div className="w-full mt-6">
+            <SocialLogin></SocialLogin>
+            <p className="text-center font-semibold my-2 text-[#a2a7a5]">
+              You have an account already?{' '}
+              <Link to="/login" className="text-[#7a7977] font-bold">
+                Login
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
     </div>

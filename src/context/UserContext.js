@@ -15,7 +15,7 @@ import app from '../firebase/firebase.config';
 const auth = getAuth(app);
 const providerGoogle = new GoogleAuthProvider();
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
 const UserContext = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -28,11 +28,8 @@ const UserContext = ({ children }) => {
     setLoading(true);
     return signInWithPopup(auth, providerGoogle);
   };
-  const userInfoUpdate = (name, imgUrl) => {
-    return updateProfile(auth.currentUser, {
-      displayName: name,
-      photoURL: imgUrl,
-    });
+  const userUpdate = name => {
+    return updateProfile(auth.currentUser, { displayName: name });
   };
   const loginWithEmailAndPassword = (email, password) => {
     setLoading(true);
@@ -52,9 +49,10 @@ const UserContext = ({ children }) => {
   const userInfo = {
     user,
     createUserWithEmailPass,
-    userInfoUpdate,
+    userUpdate,
     loginWithGoogle,
     userLogout,
+    setUser,
     loginWithEmailAndPassword,
   };
   return (
