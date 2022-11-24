@@ -2,8 +2,10 @@ import Navbar from '../pages/Shared/Navbar/Navbar';
 import React, { useState } from 'react';
 import { TabMenu } from 'primereact/tabmenu';
 import { Link, Outlet } from 'react-router-dom';
+import useTitle from '../hook/useTitle';
 
 const DashboardLayout = () => {
+  useTitle('Pay&Buy Dashboard');
   const [activeIndex, setActiveIndex] = useState(3);
 
   const adminDashboard = [

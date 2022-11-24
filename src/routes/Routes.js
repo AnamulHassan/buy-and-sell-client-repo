@@ -11,8 +11,8 @@ import MyOrder from '../pages/Dashboard/MyOrder/MyOrder';
 import AddProduct from '../pages/Dashboard/AddProduct/AddProduct';
 import MyProduct from '../pages/Dashboard/MyProduct/MyProduct';
 import MyBuyer from '../pages/Dashboard/MyBuyer/MyBuyer';
-import Login from '../pages/Login/Login';
 import Register from '../pages/Register/Register';
+import Login from '../pages/Login/Login';
 
 const router = createBrowserRouter([
   {

@@ -2,9 +2,12 @@ import React, { useRef } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { SlideMenu } from 'primereact/slidemenu';
 import { FaBars } from 'react-icons/fa';
+import { useContext } from 'react';
+import { AuthContext } from '../../../context/UserContext';
 
 const Navbar = () => {
   const menu = useRef(null);
+  const { user, loader } = useContext(AuthContext);
 
   const items = [
     {
@@ -75,14 +78,20 @@ const Navbar = () => {
   return (
     <header className="w-full bg-[#aa6f35] text-[#e8eceb]">
       <div className="w-10/12 mx-auto py-4 flex justify-between items-center">
-        <h2 className="font-bold text-2xl">Pay&Buy</h2>
+        <Link to="/" className="font-bold text-2xl">
+          Pay&Buy
+        </Link>
         <div className="flex justify-between items-center">
-          <Link
-            to="/login"
-            className="px-4 py-1 rounded-xl bg-gradient-to-r font-semibold text-white duration-300 from-[#af8071] to-[#c5a07e] hover:text-[#d3d2cf]"
-          >
-            Login
-          </Link>
+          {user ? (
+            ''
+          ) : (
+            <Link
+              to="/login"
+              className="px-4 py-1 rounded-xl bg-gradient-to-r font-semibold text-white duration-300 from-[#af8071] to-[#c5a07e] hover:text-[#d3d2cf]"
+            >
+              Login
+            </Link>
+          )}
 
           <button
             type="button"

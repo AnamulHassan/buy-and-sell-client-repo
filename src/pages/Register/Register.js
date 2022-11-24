@@ -9,8 +9,10 @@ import { useContext } from 'react';
 import { AuthContext } from '../../context/UserContext';
 import SocialLogin from '../Shared/SocialLogin/SocialLogin';
 import { Link } from 'react-router-dom';
+import useTitle from '../../hook/useTitle';
 
 const Register = () => {
+  useTitle('Pay&Buy Register');
   const [userCategory, setUserCategory] = useState('');
   const options = ['Seller', 'Buyer'];
   const { setUser, createUserWithEmailPass, userUpdate } =
