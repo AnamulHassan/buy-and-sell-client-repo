@@ -10,8 +10,8 @@ import { AuthContext } from '../../context/UserContext';
 import SocialLogin from '../Shared/SocialLogin/SocialLogin';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useTitle from '../../hook/useTitle';
-import LoaderSecondary from '../../components/LoaderSecondary/LoaderSecondary';
-import LoaderPrimary from '../../components/LoaderPrimary/LoaderPrimary';
+import toast from 'react-hot-toast';
+import useToken from '../../hook/useToken';
 
 const Register = () => {
   useTitle('Pay&Buy Register');
@@ -20,6 +20,7 @@ const Register = () => {
   const from = location.state?.from?.pathname || '/';
   const [userCategory, setUserCategory] = useState('');
   const [userEmail, setUserEmail] = useState('');
+  const [token] = useToken(userEmail);
   const options = ['Seller', 'Buyer'];
   const { setUser, createUserWithEmailPass, userUpdate, loading, setLoading } =
     useContext(AuthContext);
@@ -35,7 +36,9 @@ const Register = () => {
     handleSubmit,
     reset,
   } = useForm({ defaultValues });
-
+  if (token) {
+    navigate(from, { replace: true });
+  }
   const handleCreateUser = data => {
     const userInfo = {
       name: data.name,
@@ -59,11 +62,13 @@ const Register = () => {
           .catch(error => setShowError(error.message));
       })
       .catch(error => {
+        setLoading(false);
         if (error.message.includes('auth/email-already-in-use')) {
           setShowError('This user name already exist');
-        }
-        if (error.message.includes('auth/weak-password')) {
+        } else if (error.message.includes('auth/weak-password')) {
           setShowError('Password should be at least 6 characters');
+        } else {
+          setShowError(error.message);
         }
       });
   };
@@ -80,8 +85,16 @@ const Register = () => {
         if (result.acknowledged) {
           setUser(userInfo);
           setLoading(false);
-          navigate(from, { replace: true });
+          setUserEmail(userInfo?.email);
           reset();
+          toast.success(`${userInfo?.displayName}, User created successfully`, {
+            style: {
+              border: '2px solid #aa6f35',
+              padding: '16px',
+              color: '#aa6f35',
+              fontWeight: '600',
+            },
+          });
         }
       })
       .catch(error => setShowError(error.message));

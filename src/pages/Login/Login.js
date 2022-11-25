@@ -9,15 +9,22 @@ import { AuthContext } from '../../context/UserContext';
 import SocialLogin from '../Shared/SocialLogin/SocialLogin';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useTitle from '../../hook/useTitle';
+import toast from 'react-hot-toast';
+import useToken from '../../hook/useToken';
 
 const Login = () => {
   useTitle('Pay&Buy Login');
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || '/';
-  const { setUser, loginWithEmailAndPassword, setLoading } =
+  const { setUser, loginWithEmailAndPassword, setLoading, loading } =
     useContext(AuthContext);
   const [showError, setShowError] = useState('');
+  const [userEmail, setUserEmail] = useState('');
+  const [token] = useToken(userEmail);
+  if (token) {
+    navigate(from, { replace: true });
+  }
   const defaultValues = {
     email: '',
     password: '',
@@ -33,13 +40,26 @@ const Login = () => {
     loginWithEmailAndPassword(data.email, data.password)
       .then(result => {
         setUser(result.user);
+        setUserEmail(result?.user?.email);
         setLoading(false);
-        navigate(from, { replace: true });
         reset();
+        toast.success(`Welcome back, ${result?.user?.displayName}`, {
+          style: {
+            border: '2px solid #aa6f35',
+            padding: '16px',
+            color: '#aa6f35',
+            fontWeight: '600',
+          },
+        });
       })
       .catch(error => {
+        setLoading(false);
         if (error.message.includes('auth/user-not-found')) {
-          setShowError('This account not exist.');
+          setShowError('this account not exist.');
+        } else if (error.message.includes('auth/wrong-password')) {
+          setShowError("email and password didn't match");
+        } else {
+          setShowError(error.message);
         }
       });
   };
@@ -120,7 +140,12 @@ const Login = () => {
               </span>
               {getFormErrorMessage('password')}
             </div>
-            <Button type="submit" label="Login" className="btn-primary" />
+            <Button
+              disabled={loading}
+              type="submit"
+              label="Login"
+              className="btn-primary"
+            />
           </form>
           {showError && (
             <p className="text-center -mb-5 text-sm font-semibold text-[#aa2c08]">

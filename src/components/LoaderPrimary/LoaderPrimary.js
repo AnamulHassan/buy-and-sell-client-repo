@@ -7,7 +7,7 @@ const LoaderPrimary = () => {
       <Puff
         height="80"
         width="80"
-        radisu={1}
+        radius={1}
         color="#aa6f35"
         ariaLabel="puff-loading"
         wrapperStyle={{}}

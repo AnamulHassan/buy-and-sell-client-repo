@@ -1,29 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useContext } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../context/UserContext';
 import toast from 'react-hot-toast';
+import useToken from '../../../hook/useToken';
 
 const SocialLogin = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || '/';
   const { setUser, loginWithGoogle, setLoading } = useContext(AuthContext);
+  const [userEmail, setUserEmail] = useState('');
+  const [token] = useToken(userEmail);
+  if (token) {
+    navigate(from, { replace: true });
+  }
   const handleLoginWithGoogle = () => {
     loginWithGoogle()
       .then(result => {
         const user = result?.user;
         const userInfo = {
-          name: user.name,
+          name: user.displayName,
           email: user.email,
           isBuyer: true,
           isSeller: false,
         };
 
-        setUser(user);
-        setLoading(false);
-        navigate(from, { replace: true });
+        userInfoUpdateToDB(userInfo, user);
+        setUserEmail(user?.email);
       })
       .catch(error => console.error(error));
   };
@@ -39,12 +44,29 @@ const SocialLogin = () => {
       .then(result => {
         if (result.acknowledged) {
           setUser(userInfo);
+
           setLoading(false);
           navigate(from, { replace: true });
-          toast.success(`Welcome back, ${userInfo.displayName}`);
+          toast.success(`Welcome back, ${userInfo?.displayName}`, {
+            style: {
+              border: '2px solid #aa6f35',
+              padding: '16px',
+              color: '#aa6f35',
+              fontWeight: '600',
+            },
+          });
         }
       })
-      .catch(error => toast.error(error.message));
+      .catch(error =>
+        toast.error(`${error.message}`, {
+          style: {
+            border: '2px solid #aa2c08',
+            padding: '16px',
+            color: '#aa2c08',
+            fontWeight: '600',
+          },
+        })
+      );
   };
   return (
     <button
