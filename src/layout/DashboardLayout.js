@@ -25,15 +25,15 @@ const DashboardLayout = () => {
   const adminDashboard = [
     {
       label: <Link to="/dashboard/all_sellers">All Sellers</Link>,
-      icon: 'pi pi-fw pi-shopping-bag',
+      icon: 'pi pi-fw pi-shopping-cart',
     },
     {
       label: <Link to="/dashboard/all_buyers">All Buyers</Link>,
-      icon: 'pi pi-fw pi-users',
+      icon: 'pi pi-fw pi-shopping-bag',
     },
     {
       label: <Link to="/dashboard/reported_items">Reported Items</Link>,
-      icon: 'pi pi-fw pi-users',
+      icon: 'pi pi-fw pi-thumbs-down-fill',
     },
   ];
 
@@ -46,15 +46,15 @@ const DashboardLayout = () => {
   const sellerDashboard = [
     {
       label: <Link to="/dashboard/add_product">Add Product</Link>,
-      icon: 'pi pi-fw pi-shopping-bag',
+      icon: 'pi pi-fw pi-paperclip',
     },
     {
       label: <Link to="/dashboard/my_product">My Products</Link>,
-      icon: 'pi pi-fw pi-shopping-bag',
+      icon: 'pi pi-fw pi-list',
     },
     {
       label: <Link to="/dashboard/my_buyer">My Buyers</Link>,
-      icon: 'pi pi-fw pi-shopping-bag',
+      icon: 'pi pi-fw pi-user',
     },
   ];
 

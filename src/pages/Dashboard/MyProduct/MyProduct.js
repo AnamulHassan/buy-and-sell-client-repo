@@ -1,16 +1,19 @@
-import { async } from '@firebase/util';
 import { useQuery } from '@tanstack/react-query';
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { useContext } from 'react';
 import { AuthContext } from '../../../context/UserContext';
 import useTitle from '../../../hook/useTitle';
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
+import { Button } from 'primereact/button';
+import { Toast } from 'primereact/toast';
 
 const MyProduct = () => {
   useTitle('Pay&Buy My Product');
   const { user } = useContext(AuthContext);
-
+  const [id, setId] = useState('');
+  const toast = useRef(null);
   const { data: productsData = [], refetch } = useQuery({
-    queryKey: ['prducts', user?.email],
+    queryKey: ['products', user?.email],
     queryFn: async () => {
       const res = await fetch(
         `http://localhost:5000/product?email=${user?.email}`,
@@ -27,7 +30,91 @@ const MyProduct = () => {
       return data;
     },
   });
-  console.log(productsData);
+  const accept = () => {
+    fetch(`http://localhost:5000/product/${id}?email=${user?.email}`, {
+      method: 'DELETE',
+      headers: {
+        'content-type': 'application/json',
+        authorization: `Bearer ${JSON.parse(
+          localStorage.getItem('P&B-token')
+        )}`,
+      },
+    })
+      .then(res => res.json())
+      .then(result => {
+        if (result?.deletedCount > 0) {
+          toast.current.show({
+            severity: 'success',
+            summary: 'Successful',
+            detail: 'Product has been deleted',
+            life: 3000,
+          });
+          refetch();
+        }
+      })
+      .catch(error =>
+        toast.current.show({
+          severity: 'error',
+          summary: 'Cancel',
+          detail: error.message,
+          life: 3000,
+        })
+      );
+  };
+
+  const reject = () => {
+    toast.current.show({
+      severity: 'error',
+      summary: 'Cancel',
+      detail: 'You have canceled this process',
+      life: 3000,
+    });
+  };
+  const handleDelete = id => {
+    setId(id);
+    confirmDialog({
+      message: 'Do you want to delete product?',
+      header: 'Delete Confirmation',
+      icon: 'pi pi-info-circle',
+      acceptClassName: 'p-button-outlined p-button-danger',
+      rejectClassName: 'p-button-outlined p-button-info',
+      accept,
+      reject,
+    });
+  };
+  const handleAdvertise = id => {
+    fetch(`http://localhost:5000/product/${id}?email=${user?.email}`, {
+      method: 'PUT',
+      headers: {
+        'content-type': 'application/json',
+        authorization: `Bearer ${JSON.parse(
+          localStorage.getItem('P&B-token')
+        )}`,
+      },
+      body: JSON.stringify({ isAdvertise: true }),
+    })
+      .then(res => res.json())
+      .then(result => {
+        if (result?.modifiedCount) {
+          refetch();
+          toast.current.show({
+            severity: 'success',
+            summary: 'Successful',
+            detail: 'Product is ready for advertising',
+            life: 3000,
+          });
+        }
+      })
+      .catch(error => {
+        toast.current.show({
+          severity: 'error',
+          summary: 'Cancel',
+          detail: error.message,
+          life: 3000,
+        });
+      });
+  };
+
   return (
     <section>
       {productsData?.length > 0 ? (
@@ -101,21 +188,32 @@ const MyProduct = () => {
                                 {
                                   timeStyle: 'short',
                                   hour12: true,
-                                  timeZone: 'UTC',
+                                  timeZone: 'BST',
                                 }
                               )}`
                             : 'Time not found'}
                         </p>
                       </td>
                       <td className="py-3 px-2 text-center">
-                        <button className="bg-[#4a8fa8] text-white px-2 py-1 rounded-md duration-200 cursor-pointer hover:bg-sky-600">
-                          Advertise
-                        </button>
+                        {product?.isAdvertise ? (
+                          <span className="bg-[#c5a07e] text-white px-2 py-1 rounded-md duration-200 select-none">
+                            Released
+                          </span>
+                        ) : (
+                          <button
+                            onClick={() => handleAdvertise(product._id)}
+                            className="bg-[#4a8fa8] text-white px-2 py-1 rounded-md duration-200 cursor-pointer hover:bg-sky-600"
+                          >
+                            Advertise
+                          </button>
+                        )}
                       </td>
                       <td className="py-3 px-2 text-center">
-                        <button className="bg-[#aa2c08] text-white px-2 py-1 rounded-md duration-200 cursor-pointer hover:bg-red-500">
-                          Delete
-                        </button>
+                        <Button
+                          id="button-delete"
+                          onClick={() => handleDelete(product._id)}
+                          label="Delete"
+                        ></Button>
                       </td>
                     </tr>
                   ))}
@@ -125,11 +223,20 @@ const MyProduct = () => {
         </div>
       ) : (
         <div>
-          <h2 className="text-center mt-8 text-2xl font-bold">
+          <h2 className="text-center mt-16 text-[#7a7977] text-2xl font-semibold ">
             Your din't add any product
           </h2>
         </div>
       )}
+      <div>
+        <div>
+          <Toast ref={toast} />
+
+          <div className="card">
+            <ConfirmDialog />
+          </div>
+        </div>
+      </div>
     </section>
   );
 };
