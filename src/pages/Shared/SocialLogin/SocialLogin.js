@@ -3,6 +3,7 @@ import { useContext } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../context/UserContext';
+import toast from 'react-hot-toast';
 
 const SocialLogin = () => {
   const navigate = useNavigate();
@@ -12,11 +13,38 @@ const SocialLogin = () => {
   const handleLoginWithGoogle = () => {
     loginWithGoogle()
       .then(result => {
-        setUser(result.user);
+        const user = result?.user;
+        const userInfo = {
+          name: user.name,
+          email: user.email,
+          isBuyer: true,
+          isSeller: false,
+        };
+
+        setUser(user);
         setLoading(false);
         navigate(from, { replace: true });
       })
       .catch(error => console.error(error));
+  };
+  const userInfoUpdateToDB = (userData, userInfo) => {
+    fetch('http://localhost:5000/users', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    })
+      .then(res => res.json())
+      .then(result => {
+        if (result.acknowledged) {
+          setUser(userInfo);
+          setLoading(false);
+          navigate(from, { replace: true });
+          toast.success(`Welcome back, ${userInfo.displayName}`);
+        }
+      })
+      .catch(error => toast.error(error.message));
   };
   return (
     <button

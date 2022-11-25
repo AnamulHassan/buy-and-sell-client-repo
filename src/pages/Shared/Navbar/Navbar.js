@@ -56,9 +56,6 @@ const Navbar = () => {
       icon: 'pi pi-fw pi-question-circle',
     },
     {
-      separator: true,
-    },
-    {
       label: (
         <NavLink
           className={({ isActive }) =>
@@ -120,7 +117,7 @@ const Navbar = () => {
       <div>
         <SlideMenu
           ref={menu}
-          model={items}
+          model={user ? items : items.slice(0, -1)}
           popup
           viewportHeight={220}
           menuWidth={200}

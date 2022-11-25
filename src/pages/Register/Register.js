@@ -10,6 +10,8 @@ import { AuthContext } from '../../context/UserContext';
 import SocialLogin from '../Shared/SocialLogin/SocialLogin';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useTitle from '../../hook/useTitle';
+import LoaderSecondary from '../../components/LoaderSecondary/LoaderSecondary';
+import LoaderPrimary from '../../components/LoaderPrimary/LoaderPrimary';
 
 const Register = () => {
   useTitle('Pay&Buy Register');
@@ -17,8 +19,9 @@ const Register = () => {
   const location = useLocation();
   const from = location.state?.from?.pathname || '/';
   const [userCategory, setUserCategory] = useState('');
+  const [userEmail, setUserEmail] = useState('');
   const options = ['Seller', 'Buyer'];
-  const { setUser, createUserWithEmailPass, userUpdate, setLoading } =
+  const { setUser, createUserWithEmailPass, userUpdate, loading, setLoading } =
     useContext(AuthContext);
   const [showError, setShowError] = useState('');
   const defaultValues = {
@@ -45,17 +48,13 @@ const Register = () => {
           : false,
       isSeller: userCategory.toLowerCase() === 'seller' ? true : false,
     };
+
     // console.log(data.email, data.password);
     createUserWithEmailPass(data.email, data.password)
       .then(result => {
-        setUser(result.user);
-        setLoading(false);
-        navigate(from, { replace: true });
-        reset();
         userUpdate(data.name)
           .then(() => {
-            // console.log('ok');
-            // console.log(result.user);
+            userInfoUpdateToDB(userInfo, result.user);
           })
           .catch(error => setShowError(error.message));
       })
@@ -67,6 +66,25 @@ const Register = () => {
           setShowError('Password should be at least 6 characters');
         }
       });
+  };
+  const userInfoUpdateToDB = (userData, userInfo) => {
+    fetch('http://localhost:5000/users', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    })
+      .then(res => res.json())
+      .then(result => {
+        if (result.acknowledged) {
+          setUser(userInfo);
+          setLoading(false);
+          navigate(from, { replace: true });
+          reset();
+        }
+      })
+      .catch(error => setShowError(error.message));
   };
 
   const getFormErrorMessage = name => {
@@ -178,7 +196,12 @@ const Register = () => {
                 onChange={e => setUserCategory(e.value)}
               />
             </div>
-            <Button type="submit" label="Register" className="btn-primary" />
+            <Button
+              type="submit"
+              label="Register"
+              disabled={loading}
+              className="btn-primary"
+            />
           </form>
           {showError && (
             <p className="text-center -mb-5 text-sm font-semibold text-[#aa2c08]">

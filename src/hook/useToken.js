@@ -9,7 +9,7 @@ const useToken = email => {
         .then(result => {
           if (result.accessToken) {
             localStorage.setItem(
-              'access-token',
+              'P&B-token',
               JSON.stringify(result.accessToken)
             );
             setToken(result.accessToken);

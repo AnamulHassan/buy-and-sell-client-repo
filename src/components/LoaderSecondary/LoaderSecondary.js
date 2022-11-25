@@ -1,18 +1,19 @@
 import React from 'react';
-import { RevolvingDot } from 'react-loader-spinner';
+import { Oval } from 'react-loader-spinner';
 
 const LoaderSecondary = () => {
   return (
-    <RevolvingDot
-      height="200"
-      width="200"
-      radius="6"
-      color="#e8eceb"
-      secondaryColor=""
-      ariaLabel="revolving-dot-loading"
+    <Oval
+      height={25}
+      width={25}
+      color="#d3d2cf"
       wrapperStyle={{}}
       wrapperClass=""
       visible={true}
+      ariaLabel="oval-loading"
+      secondaryColor="#e8eceb"
+      strokeWidth={4}
+      strokeWidthSecondary={4}
     />
   );
 };
