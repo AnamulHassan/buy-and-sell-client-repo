@@ -17,23 +17,14 @@ const AddProduct = () => {
     formState: { errors },
     reset,
   } = useForm();
-  // const { data: productItems = [], isLoading } = useQuery({
-  //   queryKey: ['productItems'],
-  //   queryFn: async () => {
-  //     // const res = await fetch('http://localhost:5000/productItems');
-  //     // const data = await res.json();
-  //     // return data;
-  //   },
-  // });
-  const categories = [
-    'Camera',
-    'Camera Lens',
-    'Tripod',
-    'Battery',
-    'Memory Card',
-    'Camera Neck Strap',
-    'Camera Bag',
-  ];
+  const { data: categoryData = [] } = useQuery({
+    queryKey: ['category'],
+    queryFn: async () => {
+      const res = await fetch('http://localhost:5000/category');
+      const data = await res.json();
+      return data.result;
+    },
+  });
   const condition = ['Excellent', 'Good', 'Fair'];
   const handleAddProduct = data => {
     const name = data.name;
@@ -75,6 +66,7 @@ const AddProduct = () => {
             location,
             img: imgData.data.url,
             date,
+            isBooking: false,
           };
           fetch(`http://localhost:5000/product?email=${user?.email}`, {
             method: 'POST',
@@ -191,13 +183,13 @@ const AddProduct = () => {
               {...register('category', { required: 'category is required' })}
               className="block border-2 outline-none border-[#c5a07e] w-full rounded-md font-semibold text-[#7a7977] py-2 px-4"
             >
-              {categories &&
-                categories.map((category, index) => (
+              {categoryData &&
+                categoryData.map((category, index) => (
                   <option
                     className="bg-[#c5a07e] text-[#e8eceb] cursor-pointer py-2"
                     key={index}
                   >
-                    {category}
+                    {category?.categoryTitle}
                   </option>
                 ))}
             </select>

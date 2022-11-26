@@ -168,11 +168,11 @@ const Footer = () => {
                 placeholder="Email"
                 required
                 type="email"
-                className="flex-grow w-full h-12 px-4 mb-3 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none md:mr-2 md:mb-0 focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
+                className="flex-grow w-full h-12 px-4 mb-3 transition duration-200 bg-white border text-[#7a7977] border-gray-300 rounded shadow-sm appearance-none md:mr-2 md:mb-0 focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
               />
               <button
                 type="submit"
-                className="px-4 py-1 rounded bg-gradient-to-r font-semibold text-white duration-300 from-[#af8071] to-[#c5a07e] hover:text-[#d3d2cf]"
+                className="px-4 py-1 rounded bg-gradient-to-r font-semibold text-white duration-300 to-[#af8071] from-[#c5a07e] hover:text-[#d3d2cf]"
               >
                 Subscribe
               </button>
