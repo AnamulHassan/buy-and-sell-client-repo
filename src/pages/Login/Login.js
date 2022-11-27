@@ -71,7 +71,7 @@ const Login = () => {
   };
 
   return (
-    <div className="w-10/12 mx-auto">
+    <div data-aos="zoom-in" className="w-10/12 mx-auto">
       <div className="mx-auto flex justify-content-center">
         <div className="w-11/12 lg:w-2/5 mx-auto">
           <h5 className="text-center mt-12 mb-6 text-3xl font-bold tracking-tight text-[]">

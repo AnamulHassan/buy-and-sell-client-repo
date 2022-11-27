@@ -17,6 +17,7 @@ import PrivateRoute from './PrivateRoute';
 import AdminRoute from './AdminRoute';
 import ErrorPage from '../pages/ErrorPage/ErrorPage';
 import ProductByCategory from '../pages/Home/ProductByCategory/ProductByCategory';
+import WishList from '../pages/Dashboard/WishList/WishList';
 
 const router = createBrowserRouter([
   {
@@ -98,6 +99,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <MyBuyer></MyBuyer>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: '/dashboard/wishlist',
+        element: (
+          <PrivateRoute>
+            <WishList></WishList>
           </PrivateRoute>
         ),
       },

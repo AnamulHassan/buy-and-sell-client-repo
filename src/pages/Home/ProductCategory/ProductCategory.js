@@ -39,6 +39,7 @@ const ProductCategory = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {categoryData?.map(category => (
               <div
+                data-aos="zoom-in-down"
                 key={category._id}
                 className="bg-gradient-to-r
             from-[#af8071] to-[#c5a07e] p-2"

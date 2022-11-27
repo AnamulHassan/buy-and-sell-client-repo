@@ -85,6 +85,7 @@ const Navbar = () => {
 
   return (
     <header
+      data-aos="fade-down"
       className="w-full bg-gradient-to-r
     from-[#af8071] to-[#c5a07e] text-[#e8eceb]"
     >

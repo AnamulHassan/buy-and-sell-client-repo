@@ -4,6 +4,7 @@ import { FaFacebookF, FaInstagram, FaTwitter } from 'react-icons/fa';
 const Footer = () => {
   return (
     <footer
+      data-aos="fade-up"
       className="bg-gradient-to-r
     from-[#af8071] to-[#c5a07e] text-[#e8eceb] mt-12 w-screen"
     >

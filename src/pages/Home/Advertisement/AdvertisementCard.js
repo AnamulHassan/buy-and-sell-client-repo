@@ -106,7 +106,10 @@ const AdvertisementCard = ({ advertiseData, refetch }) => {
   };
 
   return (
-    <div className="w-full [] border-4 p-[-2px] border-[#af8071] h-full flex flex-col justify-between ">
+    <div
+      data-aos="zoom-in-down"
+      className="w-full [] border-4 p-[-2px] border-[#af8071] h-full flex flex-col justify-between "
+    >
       <div className="p-2">
         <Image
           src={img}
@@ -175,7 +178,7 @@ const AdvertisementCard = ({ advertiseData, refetch }) => {
         <Dialog
           header="Booking Information"
           visible={bookingModal}
-         className='w-11/12 lg:w-1/2'
+          className="w-11/12 lg:w-1/2"
           onHide={() => onHide('bookingModal')}
         >
           <form onSubmit={handleBookingSubmit}>

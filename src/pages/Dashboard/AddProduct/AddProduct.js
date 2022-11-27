@@ -107,7 +107,7 @@ const AddProduct = () => {
       });
   };
   return (
-    <section className="w-11/12 lg:w-2/5 my-4 mx-auto">
+    <section data-aos="zoom-out" className="w-11/12 lg:w-2/5 my-4 mx-auto">
       <h2 className="text-center text-2xl font-bold mb-5">App Product</h2>
       <form onSubmit={handleSubmit(handleAddProduct)}>
         <div className="mb-[10px] ">

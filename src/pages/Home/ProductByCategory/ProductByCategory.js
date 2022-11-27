@@ -39,7 +39,10 @@ const ProductByCategory = () => {
     <section className="w-11/12 lg:w-10/12 mx-auto my-12">
       {productsData?.length > 0 ? (
         <div>
-          <h2 className="font-bold text-lg lg:text-3xl uppercase text-[#82441b] flex items-end mb-6">
+          <h2
+            data-aos="zoom-out-right"
+            className="font-bold text-lg lg:text-3xl uppercase text-[#82441b] flex items-end mb-6"
+          >
             <span>Shop By Category</span>{' '}
             <FaAngleDoubleRight className="mx-2 text-[#c5a07e] text-2xl lg:text-[34px]" />
             <span className="text-sm lg:text-xl font-semibold">

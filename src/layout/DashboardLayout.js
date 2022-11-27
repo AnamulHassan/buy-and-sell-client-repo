@@ -42,6 +42,10 @@ const DashboardLayout = () => {
       label: <Link to="/dashboard/my_orders">My Orders</Link>,
       icon: 'pi pi-fw pi-shopping-bag',
     },
+    {
+      label: <Link to="/dashboard/wishlist">My Wishlist</Link>,
+      icon: 'pi pi-fw pi-heart',
+    },
   ];
   const sellerDashboard = [
     {

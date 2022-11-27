@@ -6,13 +6,18 @@ import useTitle from '../../../hook/useTitle';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
+import LoaderPrimary from '../../../components/LoaderPrimary/LoaderPrimary';
 
 const MyProduct = () => {
   useTitle('Pay&Buy My Product');
   const { user } = useContext(AuthContext);
   const [id, setId] = useState('');
   const toast = useRef(null);
-  const { data: productsData = [], refetch } = useQuery({
+  const {
+    data: productsData = [],
+    refetch,
+    isLoading,
+  } = useQuery({
     queryKey: ['products', user?.email],
     queryFn: async () => {
       const res = await fetch(
@@ -114,9 +119,12 @@ const MyProduct = () => {
         });
       });
   };
+  if (isLoading) {
+    return <LoaderPrimary></LoaderPrimary>;
+  }
 
   return (
-    <section>
+    <section data-aos="zoom-out">
       {productsData?.length > 0 ? (
         <div className="container p-2 mx-auto sm:p-4">
           <h2 className="mb-4 text-2xl text-[#82441b] font-bold text-[] leading-tight">

@@ -5,7 +5,10 @@ import errorImg from '../../asset/images/error/error.png';
 const ErrorPage = () => {
   const errorMessage = useRouteError();
   return (
-    <div className="w-11/12  mx-auto h-screen flex flex-col lg:flex-row items-center justify-center">
+    <div
+      data-aos="zoom-out"
+      className="w-11/12  mx-auto h-screen flex flex-col lg:flex-row items-center justify-center"
+    >
       <div className="w-full lg:w-1/2 flex items-center justify-end ">
         <img className="w-full h-full" src={errorImg} alt="" />
       </div>
