@@ -15,11 +15,14 @@ import Register from '../pages/Register/Register';
 import Login from '../pages/Login/Login';
 import PrivateRoute from './PrivateRoute';
 import AdminRoute from './AdminRoute';
+import ErrorPage from '../pages/ErrorPage/ErrorPage';
+import ProductByCategory from '../pages/Home/ProductByCategory/ProductByCategory';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Main></Main>,
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       { path: '/', element: <Home></Home> },
       { path: '/home', element: <Home></Home> },
@@ -38,6 +41,14 @@ const router = createBrowserRouter([
       {
         path: '/register',
         element: <Register></Register>,
+      },
+      {
+        path: '/products/:name',
+        element: (
+          <PrivateRoute>
+            <ProductByCategory></ProductByCategory>
+          </PrivateRoute>
+        ),
       },
     ],
   },

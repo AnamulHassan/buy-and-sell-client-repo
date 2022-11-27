@@ -175,7 +175,7 @@ const AdvertisementCard = ({ advertiseData, refetch }) => {
         <Dialog
           header="Booking Information"
           visible={bookingModal}
-          style={{ width: '50vw' }}
+         className='w-11/12 lg:w-1/2'
           onHide={() => onHide('bookingModal')}
         >
           <form onSubmit={handleBookingSubmit}>

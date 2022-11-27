@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import LoaderPrimary from '../../../components/LoaderPrimary/LoaderPrimary';
 
 const ProductCategory = () => {
@@ -54,9 +55,12 @@ const ProductCategory = () => {
                       ? category.categoryTitle
                       : 'Category Title Not Found'}
                   </h2>
-                  <button className="mt-4 border-[1px] hover:border-[#af8071] px-4 py-1 rounded bg-gradient-to-r font-semibold text-white duration-300 to-[#af8071] from-[#c5a07e] hover:text-[#d3d2cf]">
+                  <Link
+                    to={`/products/${category?.categoryTitle?.toLowerCase()}`}
+                    className="mt-4 inline-block border-[1px] hover:border-[#af8071] px-4 py-1 rounded bg-gradient-to-r font-semibold text-white duration-300 to-[#af8071] from-[#c5a07e] hover:text-[#d3d2cf]"
+                  >
                     More Product
-                  </button>
+                  </Link>
                 </div>
               </div>
             ))}
