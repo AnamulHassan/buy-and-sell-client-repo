@@ -4,7 +4,11 @@ import LoaderPrimary from '../../../components/LoaderPrimary/LoaderPrimary';
 import AdvertisementCard from './AdvertisementCard';
 
 const Advertisement = () => {
-  const { data: advertiseData = [], isLoading } = useQuery({
+  const {
+    data: advertiseData = [],
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ['advertiseData'],
     queryFn: async () => {
       const res = await fetch('http://localhost:5000/advertiseProduct');
@@ -19,6 +23,9 @@ const Advertisement = () => {
     <section className="my-10">
       {advertiseData?.length > 0 && (
         <div>
+          <h3 className="text-center text-sm text-opacity-70 -mb-2 uppercase font-bold text-[#c5a07e] tracking-tight">
+            Advertisement
+          </h3>
           <h2 className="text-5xl text-center font-bold text-[#82441b] tracking-tighter mb-10">
             Sell simply, Buy safely.
           </h2>
@@ -27,6 +34,7 @@ const Advertisement = () => {
               <AdvertisementCard
                 key={advertise._id}
                 advertiseData={advertise}
+                refetch={refetch}
               ></AdvertisementCard>
             ))}
           </div>

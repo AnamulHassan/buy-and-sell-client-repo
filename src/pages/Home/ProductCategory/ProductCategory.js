@@ -54,7 +54,7 @@ const ProductCategory = () => {
                       ? category.categoryTitle
                       : 'Category Title Not Found'}
                   </h2>
-                  <button className="mt-4 border-2 hover:border-[#af8071] px-4 py-1 rounded bg-gradient-to-r font-semibold text-white duration-300 to-[#af8071] from-[#c5a07e] hover:text-[#d3d2cf]">
+                  <button className="mt-4 border-[1px] hover:border-[#af8071] px-4 py-1 rounded bg-gradient-to-r font-semibold text-white duration-300 to-[#af8071] from-[#c5a07e] hover:text-[#d3d2cf]">
                     More Product
                   </button>
                 </div>
@@ -64,13 +64,17 @@ const ProductCategory = () => {
         </div>
       )}
       {categoryCount !== number && (
-        <div className="w-full flex items-center justify-center mt-4">
-          <button
-            onClick={() => handleSeeMore(categoryCount)}
-            className="px-4 py-1 rounded bg-gradient-to-r font-semibold text-white duration-300 from-[#af8071] to-[#c5a07e] hover:text-[#d3d2cf]"
-          >
-            More Category
-          </button>
+        <div>
+          {categoryData?.length > 0 && (
+            <div className="w-full flex items-center justify-center mt-4">
+              <button
+                onClick={() => handleSeeMore(categoryCount)}
+                className="px-4 py-1 rounded bg-gradient-to-r font-semibold text-white duration-300 from-[#af8071] to-[#c5a07e] hover:text-[#d3d2cf]"
+              >
+                More Category
+              </button>
+            </div>
+          )}
         </div>
       )}
     </div>

@@ -118,7 +118,7 @@ const AddProduct = () => {
             Name
           </label>
           <input
-            className="block border-2 outline-none border-[#c5a07e] w-full rounded-md font-semibold text-[#7a7977] py-2 px-4"
+            className="block border-[1px]  border-[#c5a07e] w-full rounded-md font-semibold text-[#7a7977] py-2 px-4"
             id="name"
             type="text"
             defaultValue={user?.displayName}
@@ -139,7 +139,7 @@ const AddProduct = () => {
             Email
           </label>
           <input
-            className="block border-2 outline-none border-[#c5a07e] w-full rounded-md font-semibold text-[#7a7977] py-2 px-4"
+            className="block border-[1px]  border-[#c5a07e] w-full rounded-md font-semibold text-[#7a7977] py-2 px-4"
             id="email"
             type="email"
             defaultValue={user?.email}
@@ -160,7 +160,7 @@ const AddProduct = () => {
             Product Name
           </label>
           <input
-            className="block border-2 outline-none border-[#c5a07e] w-full rounded-md font-semibold text-[#7a7977] py-2 px-4"
+            className="block border-[1px]  border-[#c5a07e] w-full rounded-md font-semibold text-[#7a7977] py-2 px-4"
             id="productName"
             type="text"
             placeholder="Write your product name"
@@ -181,7 +181,7 @@ const AddProduct = () => {
             </label>
             <select
               {...register('category', { required: 'category is required' })}
-              className="block border-2 outline-none border-[#c5a07e] w-full rounded-md font-semibold text-[#7a7977] py-2 px-4"
+              className="block border-[1px]  border-[#c5a07e] w-full rounded-md font-semibold text-[#7a7977] py-2 px-4"
             >
               {categoryData &&
                 categoryData.map((category, index) => (
@@ -205,7 +205,7 @@ const AddProduct = () => {
             </label>
             <select
               {...register('condition', { required: 'condition is required' })}
-              className="block border-2 outline-none border-[#c5a07e] w-full rounded-md font-semibold text-[#7a7977] py-2 px-4"
+              className="block border-[1px]  border-[#c5a07e] w-full rounded-md font-semibold text-[#7a7977] py-2 px-4"
             >
               {condition &&
                 condition.map((condition, index) => (
@@ -233,7 +233,7 @@ const AddProduct = () => {
             Product Description
           </label>
           <input
-            className="block border-2 outline-none border-[#c5a07e] w-full rounded-md font-semibold text-[#7a7977] py-2 px-4"
+            className="block border-[1px]  border-[#c5a07e] w-full rounded-md font-semibold text-[#7a7977] py-2 px-4"
             id="description"
             type="text"
             placeholder="Write product description"
@@ -256,7 +256,7 @@ const AddProduct = () => {
               Original Price
             </label>
             <input
-              className="block border-2 outline-none border-[#c5a07e] w-full rounded-md font-semibold text-[#7a7977] py-2 px-4"
+              className="block border-[1px]  border-[#c5a07e] w-full rounded-md font-semibold text-[#7a7977] py-2 px-4"
               id="originalPrice"
               type="number"
               placeholder="Original Price"
@@ -278,7 +278,7 @@ const AddProduct = () => {
               Resale Price
             </label>
             <input
-              className="block border-2 outline-none border-[#c5a07e] w-full rounded-md font-semibold text-[#7a7977] py-2 px-4"
+              className="block border-[1px]  border-[#c5a07e] w-full rounded-md font-semibold text-[#7a7977] py-2 px-4"
               id="resalePrice"
               type="number"
               placeholder="Resale Price"
@@ -302,7 +302,7 @@ const AddProduct = () => {
               Year Of Purchase
             </label>
             <input
-              className="block border-2 outline-none border-[#c5a07e] w-full rounded-md font-semibold text-[#7a7977] py-2 px-4"
+              className="block border-[1px]  border-[#c5a07e] w-full rounded-md font-semibold text-[#7a7977] py-2 px-4"
               id="purchaseYear"
               type="number"
               placeholder="Year Of Purchase"
@@ -324,7 +324,7 @@ const AddProduct = () => {
               Contact Number
             </label>
             <input
-              className="block border-2 outline-none border-[#c5a07e] w-full rounded-md font-semibold text-[#7a7977] py-2 px-4"
+              className="block border-[1px]  border-[#c5a07e] w-full rounded-md font-semibold text-[#7a7977] py-2 px-4"
               id="contact"
               type="number"
               placeholder="Contact number"
@@ -347,7 +347,7 @@ const AddProduct = () => {
             Location
           </label>
           <input
-            className="block border-2 outline-none border-[#c5a07e] w-full rounded-md font-semibold text-[#7a7977] py-2 px-4"
+            className="block border-[1px]  border-[#c5a07e] w-full rounded-md font-semibold text-[#7a7977] py-2 px-4"
             id="location"
             type="text"
             placeholder="Write your location"
@@ -370,7 +370,7 @@ const AddProduct = () => {
             Product Photo
           </label>
           <input
-            className="block border-2 outline-none border-[#c5a07e] w-full rounded-md font-semibold text-[#7a7977] py-1 px-4"
+            className="block border-[1px]  border-[#c5a07e] w-full rounded-md font-semibold text-[#7a7977] py-1 px-4"
             id="photo"
             type="file"
             {...register('photo', { required: 'photo is required' })}

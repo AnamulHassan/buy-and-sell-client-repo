@@ -128,9 +128,12 @@ const Register = () => {
                       id={field.name}
                       {...field}
                       autoFocus
-                      className={classNames({
-                        'p-invalid': fieldState.invalid,
-                      })}
+                      className={
+                        ('custom-hover',
+                        classNames({
+                          'p-invalid ': fieldState.invalid,
+                        }))
+                      }
                     />
                   )}
                 />
