@@ -13,11 +13,14 @@ import MyProduct from '../pages/Dashboard/MyProduct/MyProduct';
 import MyBuyer from '../pages/Dashboard/MyBuyer/MyBuyer';
 import Register from '../pages/Register/Register';
 import Login from '../pages/Login/Login';
-import PrivateRoute from './PrivateRoute';
+
 import AdminRoute from './AdminRoute';
 import ErrorPage from '../pages/ErrorPage/ErrorPage';
 import ProductByCategory from '../pages/Home/ProductByCategory/ProductByCategory';
 import WishList from '../pages/Dashboard/WishList/WishList';
+import SellerRoute from './SellerRoute';
+import PrivateRoute from './PrivateRoute';
+import BuyerRoute from './BuyerRoute';
 
 const router = createBrowserRouter([
   {
@@ -63,51 +66,66 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/dashboard/all_sellers',
-        element: <AllSeller></AllSeller>,
+        element: (
+          <AdminRoute>
+            <AllSeller></AllSeller>
+          </AdminRoute>
+        ),
       },
-      { path: '/dashboard/all_buyers', element: <AllBuyers></AllBuyers> },
+      {
+        path: '/dashboard/all_buyers',
+        element: (
+          <AdminRoute>
+            <AllBuyers></AllBuyers>
+          </AdminRoute>
+        ),
+      },
       {
         path: '/dashboard/reported_items',
-        element: <ReportedItems></ReportedItems>,
-      },
-      {
-        path: '/dashboard/my_orders',
         element: (
-          <PrivateRoute>
-            <MyOrder></MyOrder>
-          </PrivateRoute>
+          <AdminRoute>
+            <ReportedItems></ReportedItems>
+          </AdminRoute>
         ),
       },
       {
         path: '/dashboard/add_product',
         element: (
-          <PrivateRoute>
+          <SellerRoute>
             <AddProduct></AddProduct>
-          </PrivateRoute>
+          </SellerRoute>
         ),
       },
       {
         path: '/dashboard/my_product',
         element: (
-          <PrivateRoute>
+          <SellerRoute>
             <MyProduct></MyProduct>
-          </PrivateRoute>
+          </SellerRoute>
         ),
       },
       {
         path: '/dashboard/my_buyer',
         element: (
-          <PrivateRoute>
+          <SellerRoute>
             <MyBuyer></MyBuyer>
-          </PrivateRoute>
+          </SellerRoute>
         ),
       },
       {
         path: '/dashboard/wishlist',
         element: (
-          <PrivateRoute>
+          <BuyerRoute>
             <WishList></WishList>
-          </PrivateRoute>
+          </BuyerRoute>
+        ),
+      },
+      {
+        path: '/dashboard/my_orders',
+        element: (
+          <BuyerRoute>
+            <MyOrder></MyOrder>
+          </BuyerRoute>
         ),
       },
     ],

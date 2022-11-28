@@ -62,8 +62,11 @@ const ProductByCategory = () => {
           </div>
         </div>
       ) : (
-        <div className="flex justify-center">
-          <h2 className="font-semibold text-2xl text-[#af8071]">
+        <div className="flex justify-center items-center w-full h-[70vh] lg:h-[80vh]">
+          <h2
+            data-aos="zoom-out-right"
+            className="font-semibold text-center text-2xl text-[#af8071]"
+          >
             There is no product in this category
           </h2>
         </div>

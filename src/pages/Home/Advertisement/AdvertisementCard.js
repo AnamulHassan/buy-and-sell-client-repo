@@ -7,15 +7,17 @@ import { Dialog } from 'primereact/dialog';
 import { Button } from 'primereact/button';
 import { FaHeart } from 'react-icons/fa';
 import toast from 'react-hot-toast';
+import useBuyer from '../../../hook/useBuyer';
 
 const AdvertisementCard = ({ advertiseData, refetch }) => {
   const { user } = useContext(AuthContext);
+  const [isBuyer] = useBuyer(user?.email);
+
   const navigate = useNavigate();
   const {
     condition,
     contact,
     date,
-    description,
     email,
     img,
     location,
@@ -35,7 +37,7 @@ const AdvertisementCard = ({ advertiseData, refetch }) => {
 
   const handleBooking = name => {
     dialogFuncMap[`${name}`](true);
-    if (!user) {
+    if (!user || !isBuyer) {
       navigate('/login');
     }
   };
@@ -76,6 +78,7 @@ const AdvertisementCard = ({ advertiseData, refetch }) => {
       sellerContact,
       meetLocation,
       buyerContact,
+      productImg: img,
     };
     fetch(`http://localhost:5000/booking?email=${user?.email}`, {
       method: 'POST',

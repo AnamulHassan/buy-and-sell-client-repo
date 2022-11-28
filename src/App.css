@@ -129,3 +129,20 @@ a:focus {
 .custom-active:visited {
   background: #000 !important;
 }
+
+.btn-gradient-red {
+  margin-top: 12px !important;
+  padding: 6px 16px !important;
+  border-radius: 4px !important;
+  background: linear-gradient(90deg, #df390b 0%, #aa2c08 100%) !important;
+  border: 0px solid #af8071 !important;
+  font-size: 14px !important;
+}
+.btn-gradient-red:hover {
+  color: #d3d2cf !important;
+}
+.btn-gradient-red:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}

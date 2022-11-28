@@ -7,6 +7,7 @@ import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
 import LoaderPrimary from '../../../components/LoaderPrimary/LoaderPrimary';
+import { Image } from 'primereact/image';
 
 const MyProduct = () => {
   useTitle('Pay&Buy My Product');
@@ -24,7 +25,6 @@ const MyProduct = () => {
         `http://localhost:5000/product?email=${user?.email}`,
         {
           headers: {
-            'content-type': 'application/json',
             authorization: `Bearer ${JSON.parse(
               localStorage.getItem('P&B-token')
             )}`,
@@ -39,7 +39,6 @@ const MyProduct = () => {
     fetch(`http://localhost:5000/product/${id}?email=${user?.email}`, {
       method: 'DELETE',
       headers: {
-        'content-type': 'application/json',
         authorization: `Bearer ${JSON.parse(
           localStorage.getItem('P&B-token')
         )}`,
@@ -140,6 +139,7 @@ const MyProduct = () => {
                   <th className="py-3 px-2 text-center">Asking Price</th>
                   <th className="py-3 px-2 text-center">Post Date</th>
                   <th className="py-3 px-2 text-center">Post Time</th>
+                  <th className="py-3 px-2 text-center">Payment</th>
                   <th className="py-3 px-2 text-center">Advertisement</th>
                   <th className="py-3 px-2 text-center">Action</th>
                 </tr>
@@ -155,10 +155,15 @@ const MyProduct = () => {
                         <p>{index + 1}</p>
                       </td>
                       <td className="py-3 px-2 text-center">
-                        <img
-                          className="w-12 h-12"
+                        <Image
                           src={product.img ? product.img : 'Image not found'}
-                          alt=""
+                          zoomSrc={
+                            product.img ? product.img : 'Image not found'
+                          }
+                          alt="Image"
+                          width="64"
+                          height="64"
+                          preview
                         />
                       </td>
                       <td className="py-3 px-2 text-center">
@@ -200,6 +205,19 @@ const MyProduct = () => {
                                 }
                               )}`
                             : 'Time not found'}
+                        </p>
+                      </td>
+                      <td className="py-3 px-2 text-center">
+                        <p>
+                          {product.isPaid ? (
+                            <span className="border-2 border-[#af8071] text-[#4a8fa8] px-2 py-[2px] rounded-md duration-200  select-none">
+                              Paid
+                            </span>
+                          ) : (
+                            <span className="border-2 border-[#4a8fa8] text-[#af8071] px-2 py-[2px] rounded-md duration-200 select-none ">
+                              Unpaid
+                            </span>
+                          )}
                         </p>
                       </td>
                       <td className="py-3 px-2 text-center">

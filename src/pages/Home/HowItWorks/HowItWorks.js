@@ -6,7 +6,7 @@ import buyOrSell from '../../../asset/images/how-it-works/buy-or-sell.png';
 const HowItWorks = () => {
   return (
     <section>
-      <h2 className="text-center font-bold text-4xl mt-6 mb-10 text-[#7a7977]">
+      <h2 className="text-center font-bold text-4xl my-24 text-[#7a7977]">
         How it Works
       </h2>
       <div className="w-full items-center lg:items-start flex flex-col lg:flex-row lg:space-x-3">
