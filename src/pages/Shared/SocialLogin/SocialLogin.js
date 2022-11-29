@@ -13,6 +13,7 @@ const SocialLogin = () => {
   const { setUser, loginWithGoogle, setLoading } = useContext(AuthContext);
   const [userEmail, setUserEmail] = useState('');
   const [token] = useToken(userEmail);
+  const date = new Date().toISOString();
   if (token) {
     navigate(from, { replace: true });
   }
@@ -25,6 +26,7 @@ const SocialLogin = () => {
           email: user.email,
           isBuyer: true,
           isSeller: false,
+          date,
         };
 
         userInfoUpdateToDB(userInfo, user);
@@ -33,7 +35,7 @@ const SocialLogin = () => {
       .catch(error => console.error(error));
   };
   const userInfoUpdateToDB = (userData, userInfo) => {
-    fetch('http://localhost:5000/users', {
+    fetch('https://pay-and-buy-server-anamulhassan.vercel.app/users', {
       method: 'POST',
       headers: {
         'content-type': 'application/json',

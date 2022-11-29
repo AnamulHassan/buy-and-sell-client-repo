@@ -22,7 +22,7 @@ const MyProduct = () => {
     queryKey: ['products', user?.email],
     queryFn: async () => {
       const res = await fetch(
-        `http://localhost:5000/product?email=${user?.email}`,
+        `https://pay-and-buy-server-anamulhassan.vercel.app/product?email=${user?.email}`,
         {
           headers: {
             authorization: `Bearer ${JSON.parse(
@@ -36,14 +36,17 @@ const MyProduct = () => {
     },
   });
   const accept = () => {
-    fetch(`http://localhost:5000/product/${id}?email=${user?.email}`, {
-      method: 'DELETE',
-      headers: {
-        authorization: `Bearer ${JSON.parse(
-          localStorage.getItem('P&B-token')
-        )}`,
-      },
-    })
+    fetch(
+      `https://pay-and-buy-server-anamulhassan.vercel.app/product/${id}?email=${user?.email}`,
+      {
+        method: 'DELETE',
+        headers: {
+          authorization: `Bearer ${JSON.parse(
+            localStorage.getItem('P&B-token')
+          )}`,
+        },
+      }
+    )
       .then(res => res.json())
       .then(result => {
         if (result?.deletedCount > 0) {
@@ -87,16 +90,19 @@ const MyProduct = () => {
     });
   };
   const handleAdvertise = id => {
-    fetch(`http://localhost:5000/product/${id}?email=${user?.email}`, {
-      method: 'PUT',
-      headers: {
-        'content-type': 'application/json',
-        authorization: `Bearer ${JSON.parse(
-          localStorage.getItem('P&B-token')
-        )}`,
-      },
-      body: JSON.stringify({ isAdvertise: true }),
-    })
+    fetch(
+      `https://pay-and-buy-server-anamulhassan.vercel.app/product/${id}?email=${user?.email}`,
+      {
+        method: 'PUT',
+        headers: {
+          'content-type': 'application/json',
+          authorization: `Bearer ${JSON.parse(
+            localStorage.getItem('P&B-token')
+          )}`,
+        },
+        body: JSON.stringify({ isAdvertise: true }),
+      }
+    )
       .then(res => res.json())
       .then(result => {
         if (result?.modifiedCount) {
@@ -209,12 +215,12 @@ const MyProduct = () => {
                       </td>
                       <td className="py-3 px-2 text-center">
                         <p>
-                          {product.isPaid ? (
-                            <span className="border-2 border-[#af8071] text-[#4a8fa8] px-2 py-[2px] rounded-md duration-200  select-none">
+                          {product.isSold ? (
+                            <span className="border-2 border-[#af8071] text-[#af8071] px-2 py-[2px] rounded-md duration-200  select-none">
                               Paid
                             </span>
                           ) : (
-                            <span className="border-2 border-[#4a8fa8] text-[#af8071] px-2 py-[2px] rounded-md duration-200 select-none ">
+                            <span className="border-2 border-[#4a8fa8] text-[#4a8fa8] px-2 py-[2px] rounded-md duration-200 select-none ">
                               Unpaid
                             </span>
                           )}
@@ -222,9 +228,13 @@ const MyProduct = () => {
                       </td>
                       <td className="py-3 px-2 text-center">
                         {product?.isAdvertise ? (
-                          <span className="bg-[#c5a07e] text-white px-2 py-1 rounded-md duration-200 select-none">
-                            Released
-                          </span>
+                          product?.isSold ? (
+                            <span className="bg-white px-8 py-1 rounded-md  select-none"></span>
+                          ) : (
+                            <span className="bg-[#c5a07e] text-white px-2 py-1 rounded-md  select-none">
+                              Released
+                            </span>
+                          )
                         ) : (
                           <button
                             onClick={() => handleAdvertise(product._id)}

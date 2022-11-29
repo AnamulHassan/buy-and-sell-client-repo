@@ -6,12 +6,14 @@ import { useNavigate } from 'react-router-dom';
 import { Dialog } from 'primereact/dialog';
 import { Button } from 'primereact/button';
 import { FaHeart } from 'react-icons/fa';
+import { HiBadgeCheck } from 'react-icons/hi';
 import toast from 'react-hot-toast';
 import useBuyer from '../../../hook/useBuyer';
 
 const AdvertisementCard = ({ advertiseData, refetch }) => {
   const { user } = useContext(AuthContext);
   const [isBuyer] = useBuyer(user?.email);
+  const bookingTime = new Date().toISOString();
 
   const navigate = useNavigate();
   const {
@@ -27,6 +29,7 @@ const AdvertisementCard = ({ advertiseData, refetch }) => {
     purchaseYear,
     originalPrice,
     _id,
+    isSellerVerification,
   } = advertiseData;
 
   const [bookingModal, setBookingModal] = useState(false);
@@ -49,11 +52,64 @@ const AdvertisementCard = ({ advertiseData, refetch }) => {
       console.log('yes');
     }
   };
-  const handleAddWishlist = id => {
-    if (!user) {
+  const handleAddWishlist = productData => {
+    if (!user || !isBuyer) {
       navigate('/login');
     } else {
-      console.log(id);
+      const wishlistData = {
+        productTitle: productData?.productName,
+        productId: productData?._id,
+        productPrice: productData?.resalePrice,
+        productImg: productData?.img,
+        sellerEmail: productData?.email,
+        buyerEmail: user?.email,
+        date: bookingTime,
+      };
+      fetch(
+        `https://pay-and-buy-server-anamulhassan.vercel.app/wishlist?email=${user?.email}`,
+        {
+          method: 'POST',
+          headers: {
+            'content-type': 'application/json',
+            authorization: `Bearer ${JSON.parse(
+              localStorage.getItem('P&B-token')
+            )}`,
+          },
+          body: JSON.stringify(wishlistData),
+        }
+      )
+        .then(res => res.json())
+        .then(result => {
+          if (result?.acknowledged) {
+            toast.success('This product has been added to your wishlist', {
+              style: {
+                border: '2px solid #aa6f35',
+                padding: '16px',
+                color: '#aa6f35',
+                fontWeight: '600',
+              },
+            });
+          } else {
+            toast.error(`You added this product already to your wishlist`, {
+              style: {
+                border: '2px solid #aa2c08',
+                padding: '16px',
+                color: '#aa2c08',
+                fontWeight: '600',
+              },
+            });
+          }
+        })
+        .catch(error => {
+          toast.error(`${error.message}`, {
+            style: {
+              border: '2px solid #aa2c08',
+              padding: '16px',
+              color: '#aa2c08',
+              fontWeight: '600',
+            },
+          });
+        });
     }
   };
   const handleBookingSubmit = event => {
@@ -79,17 +135,21 @@ const AdvertisementCard = ({ advertiseData, refetch }) => {
       meetLocation,
       buyerContact,
       productImg: img,
+      bookingTime,
     };
-    fetch(`http://localhost:5000/booking?email=${user?.email}`, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        authorization: `Bearer ${JSON.parse(
-          localStorage.getItem('P&B-token')
-        )}`,
-      },
-      body: JSON.stringify(bookingInfo),
-    })
+    fetch(
+      `https://pay-and-buy-server-anamulhassan.vercel.app/booking?email=${user?.email}`,
+      {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          authorization: `Bearer ${JSON.parse(
+            localStorage.getItem('P&B-token')
+          )}`,
+        },
+        body: JSON.stringify(bookingInfo),
+      }
+    )
       .then(res => res.json())
       .then(result => {
         if (
@@ -160,7 +220,21 @@ const AdvertisementCard = ({ advertiseData, refetch }) => {
               : 'Not found'}
           </li>
           <li>
-            <span>Seller Name: </span> {name ? name : 'Not found'}
+            <span>Seller Name: </span>{' '}
+            {name ? (
+              <span className="inline-flex items-center">
+                {name}{' '}
+                <span>
+                  {isSellerVerification ? (
+                    <HiBadgeCheck className="text-[#4a8fa8] text-xl ml-1" />
+                  ) : (
+                    ''
+                  )}
+                </span>
+              </span>
+            ) : (
+              'Not found'
+            )}
           </li>
         </ul>
         <div className="flex justify-between items-center">
@@ -170,7 +244,7 @@ const AdvertisementCard = ({ advertiseData, refetch }) => {
             className="btn-gradient"
           />
           <button
-            onClick={() => handleAddWishlist(_id)}
+            onClick={() => handleAddWishlist(advertiseData)}
             className="flex items-center justify-center text-[#aa2c08] px-4 py-1 mt-3 duration-300 hover:text-[#df390b]"
           >
             <FaHeart className="mr-1" />

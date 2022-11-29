@@ -21,6 +21,7 @@ import WishList from '../pages/Dashboard/WishList/WishList';
 import SellerRoute from './SellerRoute';
 import PrivateRoute from './PrivateRoute';
 import BuyerRoute from './BuyerRoute';
+import Payment from '../pages/Dashboard/MyOrder/Payment';
 
 const router = createBrowserRouter([
   {
@@ -58,6 +59,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/dashboard',
+    errorElement: <ErrorPage></ErrorPage>,
     element: (
       <PrivateRoute>
         <DashboardLayout></DashboardLayout>
@@ -125,6 +127,25 @@ const router = createBrowserRouter([
         element: (
           <BuyerRoute>
             <MyOrder></MyOrder>
+          </BuyerRoute>
+        ),
+      },
+      {
+        path: '/dashboard/payment/:id',
+        loader: ({ params }) =>
+          fetch(
+            `https://pay-and-buy-server-anamulhassan.vercel.app/booking/${params.id}`,
+            {
+              headers: {
+                authorization: `Bearer ${JSON.parse(
+                  localStorage.getItem('P&B-token')
+                )}`,
+              },
+            }
+          ),
+        element: (
+          <BuyerRoute>
+            <Payment></Payment>
           </BuyerRoute>
         ),
       },

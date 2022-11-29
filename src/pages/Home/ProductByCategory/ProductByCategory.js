@@ -4,9 +4,11 @@ import { FaAngleDoubleRight } from 'react-icons/fa';
 import { useLocation } from 'react-router-dom';
 import LoaderPrimary from '../../../components/LoaderPrimary/LoaderPrimary';
 import { AuthContext } from '../../../context/UserContext';
+import useTitle from '../../../hook/useTitle';
 import AdvertisementCard from '../Advertisement/AdvertisementCard';
 
 const ProductByCategory = () => {
+  useTitle('Pay&Buy Categories');
   const location = useLocation();
   const { user } = useContext(AuthContext);
   const categoryPath = location?.pathname.split('/')[2];
@@ -18,7 +20,7 @@ const ProductByCategory = () => {
     queryKey: ['productsData', categoryPath],
     queryFn: async () => {
       const res = await fetch(
-        `http://localhost:5000/products?path=${categoryPath}&email=${user?.email}`,
+        `https://pay-and-buy-server-anamulhassan.vercel.app/products?path=${categoryPath}&email=${user?.email}`,
         {
           headers: {
             'content-type': 'application/json',

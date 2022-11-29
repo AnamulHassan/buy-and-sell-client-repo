@@ -11,7 +11,9 @@ const Advertisement = () => {
   } = useQuery({
     queryKey: ['advertiseData'],
     queryFn: async () => {
-      const res = await fetch('http://localhost:5000/advertiseProduct');
+      const res = await fetch(
+        'https://pay-and-buy-server-anamulhassan.vercel.app/advertiseProduct'
+      );
       const data = await res.json();
       return data;
     },

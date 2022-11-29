@@ -22,6 +22,7 @@ const Register = () => {
   const [userEmail, setUserEmail] = useState('');
   const [token] = useToken(userEmail);
   const options = ['Seller', 'Buyer'];
+  const date = new Date().toISOString();
   const { setUser, createUserWithEmailPass, userUpdate, loading, setLoading } =
     useContext(AuthContext);
   const [showError, setShowError] = useState('');
@@ -43,6 +44,7 @@ const Register = () => {
     const userInfo = {
       name: data.name,
       email: data.email,
+      date,
       isBuyer:
         userCategory.toLowerCase() === 'buyer'
           ? true
@@ -51,8 +53,6 @@ const Register = () => {
           : false,
       isSeller: userCategory.toLowerCase() === 'seller' ? true : false,
     };
-
-    // console.log(data.email, data.password);
     createUserWithEmailPass(data.email, data.password)
       .then(result => {
         userUpdate(data.name)
@@ -73,7 +73,7 @@ const Register = () => {
       });
   };
   const userInfoUpdateToDB = (userData, userInfo) => {
-    fetch('http://localhost:5000/users', {
+    fetch('https://pay-and-buy-server-anamulhassan.vercel.app/users', {
       method: 'POST',
       headers: {
         'content-type': 'application/json',

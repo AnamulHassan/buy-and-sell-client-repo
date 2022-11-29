@@ -1,7 +1,7 @@
 import Navbar from '../pages/Shared/Navbar/Navbar';
 import React, { useState } from 'react';
 import { TabMenu } from 'primereact/tabmenu';
-import { Link, Navigate, Outlet } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import useTitle from '../hook/useTitle';
 import { useContext } from 'react';
 import { AuthContext } from '../context/UserContext';
@@ -16,7 +16,7 @@ const DashboardLayout = () => {
     queryKey: ['user', user?.email],
     queryFn: async () => {
       const res = await fetch(
-        `http://localhost:5000/user?email=${user?.email}`
+        `https://pay-and-buy-server-anamulhassan.vercel.app/user?email=${user?.email}`
       );
       const data = res.json();
       return data;

@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { SlideMenu } from 'primereact/slidemenu';
 import { FaBars } from 'react-icons/fa';
 import { useContext } from 'react';
@@ -8,11 +8,13 @@ import LoaderSecondary from '../../../components/LoaderSecondary/LoaderSecondary
 
 const Navbar = () => {
   const menu = useRef(null);
+  const navigate = useNavigate();
   const { user, loading, userLogout } = useContext(AuthContext);
   const handleLogout = () => {
     userLogout()
       .then(() => {
         localStorage.removeItem('P&B-token');
+        navigate('/');
       })
       .catch(error => console.error(error));
   };

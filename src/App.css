@@ -1,9 +1,7 @@
-/* width */
 ::-webkit-scrollbar {
   width: 5px;
 }
 
-/* Handle */
 ::-webkit-scrollbar-thumb {
   background: #aa6f35;
   border-radius: 10px;
@@ -68,14 +66,13 @@ button:focus {
   box-shadow: none !important;
   border: 0px solid #aa6f35 !important;
 }
-/* Chrome, Safari, Edge, Opera */
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-/* Firefox */
 input[type='number'] {
   -moz-appearance: textfield;
 }

@@ -14,7 +14,9 @@ const ProductCategory = () => {
   } = useQuery({
     queryKey: ['category', number],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:5000/category?size=${number}`);
+      const res = await fetch(
+        `https://pay-and-buy-server-anamulhassan.vercel.app/category?size=${number}`
+      );
       const data = await res.json();
       setCategoryCount(data.count);
       return data.result;

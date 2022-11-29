@@ -20,7 +20,9 @@ const AddProduct = () => {
   const { data: categoryData = [] } = useQuery({
     queryKey: ['category'],
     queryFn: async () => {
-      const res = await fetch('http://localhost:5000/category');
+      const res = await fetch(
+        'https://pay-and-buy-server-anamulhassan.vercel.app/category'
+      );
       const data = await res.json();
       return data.result;
     },
@@ -68,16 +70,19 @@ const AddProduct = () => {
             date,
             isBooking: false,
           };
-          fetch(`http://localhost:5000/product?email=${user?.email}`, {
-            method: 'POST',
-            headers: {
-              'content-type': 'application/json',
-              authorization: `Bearer ${JSON.parse(
-                localStorage.getItem('P&B-token')
-              )}`,
-            },
-            body: JSON.stringify(productInfo),
-          })
+          fetch(
+            `https://pay-and-buy-server-anamulhassan.vercel.app/product?email=${user?.email}`,
+            {
+              method: 'POST',
+              headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${JSON.parse(
+                  localStorage.getItem('P&B-token')
+                )}`,
+              },
+              body: JSON.stringify(productInfo),
+            }
+          )
             .then(res => res.json())
             .then(result => {
               if (result.acknowledged) {
