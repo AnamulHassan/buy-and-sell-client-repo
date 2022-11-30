@@ -5,6 +5,7 @@ import { FaBars } from 'react-icons/fa';
 import { useContext } from 'react';
 import { AuthContext } from '../../../context/UserContext';
 import LoaderSecondary from '../../../components/LoaderSecondary/LoaderSecondary';
+import logo from '../../../asset/images/logo.png';
 
 const Navbar = () => {
   const menu = useRef(null);
@@ -93,7 +94,7 @@ const Navbar = () => {
     >
       <div className="w-10/12 mx-auto py-4 flex justify-between items-center">
         <Link to="/" className="font-bold text-2xl">
-          Pay&Buy
+          <img className="w-32 lg:w-36" src={logo} alt="" />
         </Link>
         <div className="flex justify-between items-center">
           {user ? (

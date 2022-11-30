@@ -28,9 +28,9 @@ const SocialLogin = () => {
           isSeller: false,
           date,
         };
-
         userInfoUpdateToDB(userInfo, user);
         setUserEmail(user?.email);
+        setUser(user);
       })
       .catch(error => console.error(error));
   };
@@ -45,8 +45,6 @@ const SocialLogin = () => {
       .then(res => res.json())
       .then(result => {
         if (result.acknowledged) {
-          setUser(userInfo);
-
           setLoading(false);
           navigate(from, { replace: true });
           toast.success(`Welcome back, ${userInfo?.displayName}`, {
@@ -59,16 +57,7 @@ const SocialLogin = () => {
           });
         }
       })
-      .catch(error =>
-        toast.error(`${error.message}`, {
-          style: {
-            border: '2px solid #aa2c08',
-            padding: '16px',
-            color: '#aa2c08',
-            fontWeight: '600',
-          },
-        })
-      );
+      .catch(error => console.error(error));
   };
   return (
     <button

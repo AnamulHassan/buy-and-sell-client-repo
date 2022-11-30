@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 const WishList = () => {
   useTitle('Pay&Buy WishList');
   const { user } = useContext(AuthContext);
-  const { data: wishlistData = [], refetch } = useQuery({
+  const { data: wishlistData = [] } = useQuery({
     queryKey: ['wishlist'],
     queryFn: async () => {
       const res = await fetch(
@@ -95,13 +95,19 @@ const WishList = () => {
                         </p>
                       </td>
                       <td className="py-3 px-2 text-center">
-                        <Link
-                          to={`/dashboard/payment/${wishlist?.productId}`}
-                          className="w-full bg-gradient-to-r
+                        {wishlist?.isSold ? (
+                          <span className="w-full border-2 border-[#c5a07e]  text-[14px] rounded-[4px] text-[#1f1713] px-1 mt-3 py-[4.5px]  select-none block ">
+                            Paid
+                          </span>
+                        ) : (
+                          <Link
+                            to={`/dashboard/payment/${wishlist?.productId}`}
+                            className="w-full bg-gradient-to-r
                 from-[#af8071] mt-3 to-[#c5a07e]  text-[14px] rounded-[4px] px-1 py-[6px] text-white duration-300 block hover:text-[#d3d2cf]"
-                        >
-                          Pay
-                        </Link>
+                          >
+                            Pay
+                          </Link>
+                        )}
                       </td>
                     </tr>
                   ))}

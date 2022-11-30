@@ -136,7 +136,7 @@ const MyProduct = () => {
             Your Products
           </h2>
           <div className="overflow-x-auto">
-            <table className="min-w-full text-xs">
+            <table className="min-w-full text-xs overflow-auto">
               <thead className=" bg-gradient-to-r font-semibold text-white from-[#af8071] to-[#c5a07e]">
                 <tr className="text-left">
                   <th className="py-3 px-2 text-center">Index</th>
