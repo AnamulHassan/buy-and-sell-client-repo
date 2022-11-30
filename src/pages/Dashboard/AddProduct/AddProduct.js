@@ -5,10 +5,12 @@ import toast from 'react-hot-toast';
 import { AuthContext } from '../../../context/UserContext';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 const AddProduct = () => {
   useTitle('Pay&Buy Add Product');
   const navigate = useNavigate();
+  const [loadingSubmit, setLoadingSubmit] = useState(false);
   const imageHostKey = process.env.REACT_APP_IMGBB_API_KEY;
   const { user } = useContext(AuthContext);
   const {
@@ -45,7 +47,7 @@ const AddProduct = () => {
 
     const formData = new FormData();
     formData.append('image', image);
-
+    setLoadingSubmit(true);
     const url = `https://api.imgbb.com/1/upload?key=${imageHostKey}`;
     fetch(url, {
       method: 'POST',
@@ -88,6 +90,7 @@ const AddProduct = () => {
               if (result.acknowledged) {
                 reset();
                 navigate('/dashboard/my_product');
+                setLoadingSubmit(false);
                 toast.success('Product added Successfully', {
                   style: {
                     border: '2px solid #aa6f35',
@@ -98,7 +101,8 @@ const AddProduct = () => {
                 });
               }
             })
-            .catch(error =>
+            .catch(error => {
+              setLoadingSubmit(false);
               toast.error(`${error.message}`, {
                 style: {
                   border: '2px solid #aa2c08',
@@ -106,8 +110,8 @@ const AddProduct = () => {
                   color: '#aa2c08',
                   fontWeight: '600',
                 },
-              })
-            );
+              });
+            });
         }
       });
   };
@@ -390,9 +394,10 @@ const AddProduct = () => {
         {errors.exampleRequired && <span>This field is required</span>}
 
         <input
-          className="w-full py-2 mt-2 rounded bg-gradient-to-r font-semibold cursor-pointer text-white duration-300 from-[#af8071] to-[#c5a07e] hover:text-[#d3d2cf]"
+          className="w-full py-2 mt-2 rounded bg-gradient-to-r font-semibold cursor-pointer text-white duration-300 from-[#af8071] to-[#c5a07e] hover:text-[#d3d2cf] border-[1px] border-[#af8071]"
           type="submit"
           value="Submit"
+          disabled={loadingSubmit === true}
         />
       </form>
     </section>

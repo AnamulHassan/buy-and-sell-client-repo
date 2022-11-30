@@ -9,11 +9,14 @@ import { FaHeart } from 'react-icons/fa';
 import { HiBadgeCheck } from 'react-icons/hi';
 import toast from 'react-hot-toast';
 import useBuyer from '../../../hook/useBuyer';
+import LoaderForCard from '../../../components/LoaderForCard/LoaderForCard';
 
-const AdvertisementCard = ({ advertiseData, refetch }) => {
+const AdvertisementCard = ({ advertiseData, refetch, isLoading }) => {
   const { user } = useContext(AuthContext);
   const [isBuyer] = useBuyer(user?.email);
   const bookingTime = new Date().toISOString();
+  const [loadingBooking, setLoadingBooking] = useState(false);
+  const [loadingWishlist, setLoadingWishlist] = useState(false);
 
   const navigate = useNavigate();
   const {
@@ -65,6 +68,7 @@ const AdvertisementCard = ({ advertiseData, refetch }) => {
         buyerEmail: user?.email,
         date: bookingTime,
       };
+      setLoadingWishlist(true);
       fetch(
         `https://pay-and-buy-server-anamulhassan.vercel.app/wishlist?email=${user?.email}`,
         {
@@ -81,6 +85,7 @@ const AdvertisementCard = ({ advertiseData, refetch }) => {
         .then(res => res.json())
         .then(result => {
           if (result?.acknowledged) {
+            setLoadingWishlist(false);
             toast.success('This product has been added to your wishlist', {
               style: {
                 border: '2px solid #aa6f35',
@@ -137,6 +142,7 @@ const AdvertisementCard = ({ advertiseData, refetch }) => {
       productImg: img,
       bookingTime,
     };
+    setLoadingBooking(true);
     fetch(
       `https://pay-and-buy-server-anamulhassan.vercel.app/booking?email=${user?.email}`,
       {
@@ -157,6 +163,7 @@ const AdvertisementCard = ({ advertiseData, refetch }) => {
           result?.replacementResult?.modifiedCount > 0
         )
           refetch();
+        setLoadingBooking(false);
         toast.success('Booking Submitted Successfully', {
           style: {
             border: '2px solid #aa6f35',
@@ -168,6 +175,9 @@ const AdvertisementCard = ({ advertiseData, refetch }) => {
       });
   };
 
+  if (isLoading) {
+    return <LoaderForCard></LoaderForCard>;
+  }
   return (
     <div
       data-aos="zoom-in-down"
@@ -240,11 +250,13 @@ const AdvertisementCard = ({ advertiseData, refetch }) => {
         <div className="flex justify-between items-center">
           <Button
             label="Book Now"
+            disabled={user && isBuyer === false}
             onClick={() => handleBooking('bookingModal', _id)}
             className="btn-gradient"
           />
           <button
             onClick={() => handleAddWishlist(advertiseData)}
+            disabled={loadingWishlist || (user && isBuyer === false)}
             className="flex items-center justify-center text-[#aa2c08] px-4 py-1 mt-3 duration-300 hover:text-[#df390b]"
           >
             <FaHeart className="mr-1" />
@@ -397,6 +409,7 @@ const AdvertisementCard = ({ advertiseData, refetch }) => {
             </div>
             <div className="flex justify-end space-x-4 mt-4">
               <input
+                disabled={loadingBooking}
                 type="submit"
                 value="Submit"
                 className="px-4 py-1 rounded bg-gradient-to-r font-semibold cursor-pointer text-white duration-300 from-[#af8071] border-[1px] border-[#af8071] to-[#c5a07e] hover:text-[#d3d2cf]"

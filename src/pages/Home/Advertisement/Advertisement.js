@@ -37,6 +37,7 @@ const Advertisement = () => {
                 key={advertise._id}
                 advertiseData={advertise}
                 refetch={refetch}
+                isLoading={isLoading}
               ></AdvertisementCard>
             ))}
           </div>

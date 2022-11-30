@@ -10,6 +10,7 @@ import { HiCheck } from 'react-icons/hi';
 
 const AllSeller = () => {
   const { user } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
   const toast = useRef(null);
   const [id, setId] = useState('');
   const {
@@ -34,6 +35,7 @@ const AllSeller = () => {
     },
   });
   const accept = () => {
+    setLoading(true);
     fetch(
       `https://pay-and-buy-server-anamulhassan.vercel.app/seller/${id}?email=${user?.email}`,
       {
@@ -48,6 +50,7 @@ const AllSeller = () => {
       .then(res => res.json())
       .then(result => {
         if (result?.deletedCount > 0) {
+          setLoading(false);
           toast.current.show({
             severity: 'success',
             summary: 'Successful',
@@ -68,6 +71,7 @@ const AllSeller = () => {
   };
 
   const reject = () => {
+    setLoading(false);
     toast.current.show({
       severity: 'error',
       summary: 'Cancel',
@@ -88,6 +92,7 @@ const AllSeller = () => {
     });
   };
   const handleSellerVerification = sellerEmail => {
+    setLoading(true);
     fetch(
       `https://pay-and-buy-server-anamulhassan.vercel.app/sellerVerify?email=${user?.email}`,
       {
@@ -103,6 +108,7 @@ const AllSeller = () => {
     )
       .then(res => res.json())
       .then(result => {
+        setLoading(false);
         if (result?.productResult.modifiedCount > 0) {
           toast.current.show({
             severity: 'success',
