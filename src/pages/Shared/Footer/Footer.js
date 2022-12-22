@@ -195,7 +195,7 @@ const Footer = () => {
               target="_blank"
               className="text-gray-500 transition-colors duration-300 hover:text-teal-accent-400"
             >
-              <span className="flex justify-center duration-300 bg-[#af8071] items-center h-10 w-10 rounded-full hoverbg-[#c5a07e]">
+              <span className="flex justify-center duration-300 bg-[#af8071] items-center h-10 w-10 rounded-full hover:bg-[#c5a07e]">
                 <FaTwitter className="text-white text-xl" />
               </span>
             </a>
@@ -203,7 +203,7 @@ const Footer = () => {
               href="/"
               className="text-gray-500 transition-colors duration-300 hover:text-teal-accent-400"
             >
-              <span className="flex justify-center duration-300 bg-[#af8071] items-center h-10 w-10 rounded-full hoverbg-[#c5a07e]">
+              <span className="flex justify-center duration-300 bg-[#af8071] items-center h-10 w-10 rounded-full hover:bg-[#c5a07e]">
                 <FaInstagram className="text-white text-xl" />
               </span>
             </a>
@@ -211,7 +211,7 @@ const Footer = () => {
               href="/"
               className="text-gray-500 transition-colors duration-300 hover:text-teal-accent-400"
             >
-              <span className="flex justify-center duration-300 bg-[#af8071] items-center h-10 w-10 rounded-full hoverbg-[#c5a07e]">
+              <span className="flex justify-center duration-300 bg-[#af8071] items-center h-10 w-10 rounded-full hover:bg-[#c5a07e]">
                 <FaFacebookF className="text-white text-xl" />
               </span>
             </a>

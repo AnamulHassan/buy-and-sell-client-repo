@@ -104,7 +104,7 @@ const Navbar = () => {
           ) : (
             <Link
               to="/login"
-              className="px-4 py-1 rounded-xl bg-gradient-to-r font-semibold cursor-pointer text-white duration-300 from-[#af8071] to-[#c5a07e] hover:text-[#d3d2cf]"
+              className="px-4 py-1 rounded bg-gradient-to-r font-semibold cursor-pointer text-white duration-300 to-[#af8071] from-[#c5a07e] hover:text-[#d3d2cf]"
             >
               Login
             </Link>
